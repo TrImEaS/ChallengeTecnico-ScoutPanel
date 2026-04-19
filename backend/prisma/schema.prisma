@@ -1,0 +1,51 @@
+generator client {
+  provider     = "prisma-client-js"
+  moduleFormat = "cjs"
+  output       = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Team {
+  id      Int      @id @default(autoincrement())
+  name    String
+  country String
+  logoUrl String?
+  players Player[]
+}
+
+model Player {
+  id          Int           @id @default(autoincrement())
+  name        String
+  birthDate   DateTime
+  nationality String
+  position    String
+  photoUrl    String?
+  teamId      Int
+  team        Team          @relation(fields: [teamId], references: [id])
+  stats       PlayerStats[]
+}
+
+model Season {
+  id    Int           @id @default(autoincrement())
+  name  String
+  stats PlayerStats[]
+}
+
+model PlayerStats {
+  id            Int     @id @default(autoincrement())
+  playerId      Int
+  player        Player  @relation(fields: [playerId], references: [id])
+  seasonId      Int
+  season        Season  @relation(fields: [seasonId], references: [id])
+  matchesPlayed Int
+  goals         Int
+  assists       Int
+  yellowCards   Int
+  redCards   Int
+  minutesPlayed Int
+
+  @@map("Player_Stats")
+}
