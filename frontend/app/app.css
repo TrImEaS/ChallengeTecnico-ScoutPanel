@@ -1,15 +1,58 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Fuentes */
+  --font-sans:
+    "Nunito Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Colores de marca */
+  --color-primary: #00e094;
+  --color-secondary-blue: #0c65d4;
+  --color-secondary-purple: #7533fc;
+  --color-brand-bg: #0f0f0f;
+  --color-brand-text: #f2f2f2;
+
+  /* Animaciones personalizadas (v4 las detecta aquí) */
+  --animate-glow: glow-pulse 2s infinite ease-in-out;
+
+  @keyframes glow-pulse {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 5px rgba(0, 224, 148, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 15px rgba(0, 224, 148, 0.9));
+    }
+  }
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
+/* Estilos Globales */
+@layer base {
+  html,
+  body {
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text);
     color-scheme: dark;
+    font-family: var(--font-sans);
+    @apply antialiased selection:bg-primary/30 selection:text-primary;
+  }
+
+  /* Scrollbar "Gamer/Scout" personalizada */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-brand-bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-800 rounded-full hover:bg-emerald-500/50 transition-colors;
+  }
+}
+
+/* Utilidades extra si las llegas a necesitar */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
 }

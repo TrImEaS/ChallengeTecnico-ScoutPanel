@@ -1,12 +1,15 @@
-import type { Route } from "./+types/home";
+import type { Route } from "./+types/Home";
+import HomeLayout from "~/components/home/HomeLayout";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Home - ScoutPanel" },
+    { name: "description", content: "Welcome to ScoutPanel" },
   ];
 }
 
 export default function Home() {
-  return <div></div>;
+  return (
+    <HomeLayout />
+  )
 }
