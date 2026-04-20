@@ -11,11 +11,11 @@ export class PlayerService {
   }
 
   findAll () {
-    return this.prisma.player.findMany({ include: { team: true } })
+    return this.prisma.player.findMany({ include: { team: true, stats: { include: { season: true } }, career: { include: { team: true } } } })
   }
 
   findOne (id: number) {
-    return this.prisma.player.findUnique({ where: { id }, include: { team: true } })
+    return this.prisma.player.findUnique({ where: { id }, include: { team: true, stats: { include: { season: true } }, career: { include: { team: true } } } })
   }
 
   update (id: number, data: Prisma.PlayerUncheckedUpdateInput) {

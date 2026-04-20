@@ -1,7 +1,6 @@
 generator client {
   provider     = "prisma-client-js"
   moduleFormat = "cjs"
-  output       = "../src/generated/prisma"
 }
 
 datasource db {
@@ -14,18 +13,41 @@ model Team {
   country String
   logoUrl String?
   players Player[]
+  careers PlayerCareer[]
 }
 
 model Player {
-  id          Int           @id @default(autoincrement())
-  name        String
-  birthDate   DateTime
-  nationality String
-  position    String
-  photoUrl    String?
-  teamId      Int
-  team        Team          @relation(fields: [teamId], references: [id])
-  stats       PlayerStats[]
+  id                Int           @id @default(autoincrement())
+  name              String
+  birthDate         DateTime
+  nationality       String
+  secondNationality String?
+  residence         String?
+  communityPassport Boolean       @default(false)
+  position          String
+  positionShort     String?       // "SS", "CB"
+  skillfulFoot      String?       // "Right", "Left", "Both"
+  height            Float?        // in mts
+  weight            Int?          // in kg
+  marketValue       Float?        // in millions
+  intermediary      String?
+  contractFrom      DateTime?
+  contractTo        DateTime?
+  photoUrl          String?
+  teamId            Int
+  team              Team          @relation(fields: [teamId], references: [id])
+  stats             PlayerStats[]
+  career            PlayerCareer[]
+}
+
+model PlayerCareer {
+  id        Int       @id @default(autoincrement())
+  playerId  Int
+  player    Player    @relation(fields: [playerId], references: [id])
+  teamId    Int
+  team      Team      @relation(fields: [teamId], references: [id])
+  startDate DateTime
+  endDate   DateTime?
 }
 
 model Season {
@@ -35,17 +57,22 @@ model Season {
 }
 
 model PlayerStats {
-  id            Int     @id @default(autoincrement())
-  playerId      Int
-  player        Player  @relation(fields: [playerId], references: [id])
-  seasonId      Int
-  season        Season  @relation(fields: [seasonId], references: [id])
-  matchesPlayed Int
-  goals         Int
-  assists       Int
-  yellowCards   Int
-  redCards   Int
-  minutesPlayed Int
+  id                  Int     @id @default(autoincrement())
+  playerId            Int
+  player              Player  @relation(fields: [playerId], references: [id])
+  seasonId            Int
+  season              Season  @relation(fields: [seasonId], references: [id])
+  competition         String? // e.g., "Liga Profesional de Fútbol"
+  matchesPlayed       Int
+  goals               Int
+  assists             Int
+  yellowCards         Int
+  redCards            Int
+  minutesPlayed       Int
+  shotsOnTarget       Int?
+  goalConversion      Int?
+  offensiveDuelsWon   Int?
+  aerialDuelsWon      Int?
 
   @@map("Player_Stats")
 }
