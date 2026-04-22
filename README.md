@@ -16,10 +16,16 @@ Asegúrate de que los siguientes puertos estén libres en tu sistema local:
 
 ### 2. Despliegue
 
-Desde la raíz del proyecto, ejecuta el siguiente comando:
+Descarga el repositorio:
 
 ```bash
-docker-compose up --build
+git clone https://github.com/TrImEaS/ChallengeTecnico-ScoutPanel.git && cd ChallengeTecnico-ScoutPanel
+```
+
+Y desde la raíz del proyecto, ejecuta el siguiente comando:
+
+```bash
+docker compose up --build
 ```
 
 ### 3. Acceso Local
