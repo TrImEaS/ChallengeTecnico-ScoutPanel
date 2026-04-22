@@ -16,7 +16,7 @@ export default function SearchLayout({ loaderData: { data, meta, positions } }: 
   const { filters, updateLocalFilter, handleSearch } = useSearchFilters();
   
   return (
-    <div className="flex flex-col sm:mx-auto gap-6 px-2 max-w-[1400px] w-full pb-8">
+    <div className="flex flex-col sm:mx-auto gap-6 px-2 max-w-[1400px] w-full py-8">
       <SearchFilters 
         filters={filters}
         updateFilter={updateLocalFilter}
