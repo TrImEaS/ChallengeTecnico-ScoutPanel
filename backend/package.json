@@ -29,12 +29,10 @@
     "@prisma/adapter-pg": "^7.7.0",
     "@prisma/client": "^7.7.0",
     "dotenv": "^17.4.2",
-    "nestjs-zod": "^5.3.0",
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
-    "save-dev": "^0.0.1-security",
-    "zod": "^4.3.6"
+    "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
