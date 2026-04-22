@@ -13,6 +13,42 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U thomas_admin -d scout_panel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ldp_scout_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://thomas_admin:e%C3%B1ie_2026%21%23@db:5432/scout_panel
+      - PORT=3000
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npx prisma db push && npx prisma db seed && npm run test -- --watchAll=false && npm run start:prod"
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL_PROD=http://localhost:3000
+    container_name: ldp_scout_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL_DEV=http://localhost:3000
+      - VITE_API_URL_PROD=http://localhost:3000
+    depends_on:
+      - backend
+    command: sh -c "npm run test -- --run && npm run build"
 
 volumes:
   postgres_data:
