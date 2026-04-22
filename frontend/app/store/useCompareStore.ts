@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface ComparePlayer {
   id: number;
@@ -14,22 +15,29 @@ interface CompareStore {
   clear: () => void;
 }
 
-export const useCompareStore = create<CompareStore>((set) => ({
-  selectedPlayers: [],
-  togglePlayer: (player) =>
-    set((state) => {
-      const exists = state.selectedPlayers.some((p) => p.id === player.id);
-      if (exists) {
-        return { selectedPlayers: state.selectedPlayers.filter((p) => p.id !== player.id) };
-      }
-      if (state.selectedPlayers.length >= 3) {
-        return state;
-      }
-      return { selectedPlayers: [...state.selectedPlayers, player] };
+export const useCompareStore = create<CompareStore>()(
+  persist(
+    (set) => ({
+      selectedPlayers: [],
+      togglePlayer: (player) =>
+        set((state) => {
+          const exists = state.selectedPlayers.some((p) => p.id === player.id);
+          if (exists) {
+            return { selectedPlayers: state.selectedPlayers.filter((p) => p.id !== player.id) };
+          }
+          if (state.selectedPlayers.length >= 3) {
+            return state;
+          }
+          return { selectedPlayers: [...state.selectedPlayers, player] };
+        }),
+      removePlayer: (id) =>
+        set((state) => ({
+          selectedPlayers: state.selectedPlayers.filter((p) => p.id !== id),
+        })),
+      clear: () => set({ selectedPlayers: [] }),
     }),
-  removePlayer: (id) =>
-    set((state) => ({
-      selectedPlayers: state.selectedPlayers.filter((p) => p.id !== id),
-    })),
-  clear: () => set({ selectedPlayers: [] }),
-}));
+    {
+      name: 'compare-storage',
+    }
+  )
+);

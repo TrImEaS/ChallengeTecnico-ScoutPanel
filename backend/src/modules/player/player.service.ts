@@ -90,11 +90,13 @@ export class PlayerService {
     const today = new Date()
 
     if (minAge) {
-      const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate())
+      const safeMin = Math.max(0, Math.min(minAge, 150))
+      const maxDate = new Date(today.getFullYear() - safeMin, today.getMonth(), today.getDate())
       filter.lte = maxDate.toISOString()
     }
     if (maxAge) {
-      const minDate = new Date(today.getFullYear() - maxAge - 1, today.getMonth(), today.getDate() + 1)
+      const safeMax = Math.max(0, Math.min(maxAge, 150))
+      const minDate = new Date(today.getFullYear() - safeMax - 1, today.getMonth(), today.getDate() + 1)
       filter.gte = minDate.toISOString()
     }
 

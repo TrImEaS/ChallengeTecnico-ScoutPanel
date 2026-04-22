@@ -11,7 +11,7 @@ export function CompareHeader({ players }: { players: (Player | null)[] }) {
   return (
     <div className="flex items-center justify-center gap-2 sm:gap-8 py-3 bg-zinc-900/40 border-b border-zinc-800/60 rounded-t-2xl px-2 sm:px-6 relative">
       {activePlayers.map((player, index) => (
-        <div key={player.id}>
+        <Fragment key={player.id}>
           <section className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 relative group">
             <div 
               className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 overflow-hidden bg-zinc-950 shrink-0 relative"
@@ -39,7 +39,7 @@ export function CompareHeader({ players }: { players: (Player | null)[] }) {
           {index < activePlayers.length - 1 && (
             <span className="text-zinc-600 font-black text-[10px] sm:text-base px-1 self-center sm:self-auto">VS</span>
           )}
-        </div>
+        </Fragment>
       ))}
     </div>
   );

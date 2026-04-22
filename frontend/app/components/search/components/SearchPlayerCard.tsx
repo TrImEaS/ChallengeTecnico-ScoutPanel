@@ -42,8 +42,8 @@ export function SearchPlayerCard({ player }: { player: Player}) {
             </div>
 
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] text-zinc-500 uppercase tracking-widest">{player.nationality}</span>
-              <h3 className="text-lg sm:text-2xl font-bold text-zinc-100 truncate group-hover:text-primary transition-colors">
+              <span className="text-[9px] text-zinc-500 uppercase tracking-widest">{player.nationality}</span>
+              <h3 className="text-sm sm:text-2xl font-bold text-zinc-100 w-full group-hover:text-primary transition-colors">
                 {player.name}
               </h3>
               <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-400 mt-1">

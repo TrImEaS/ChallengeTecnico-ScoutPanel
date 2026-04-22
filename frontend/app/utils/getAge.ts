@@ -1,6 +1,7 @@
-export function getAge (birthDate: string): string {
+export function getAge(birthDate: string | null | undefined): string {
   if (!birthDate) return "";
-  const today = new Date();
   const birthDateObj = new Date(birthDate);
+  if (isNaN(birthDateObj.getTime())) return "";
+  const today = new Date();
   return `${today.getFullYear() - birthDateObj.getFullYear()}y`;
 }

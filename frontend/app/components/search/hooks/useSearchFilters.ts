@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 export function useSearchFilters() {
@@ -10,6 +10,16 @@ export function useSearchFilters() {
     minAge: searchParams.get("minAge") || "",
     maxAge: searchParams.get("maxAge") || "",
   });
+
+  useEffect(() => {
+    setFilters({
+      name: searchParams.get("name") || "",
+      position: searchParams.get("position") || "",
+      nationality: searchParams.get("nationality") || "",
+      minAge: searchParams.get("minAge") || "",
+      maxAge: searchParams.get("maxAge") || "",
+    });
+  }, [searchParams]);
 
   const updateLocalFilter = useCallback((key: keyof typeof filters, value: string) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -24,6 +34,9 @@ export function useSearchFilters() {
     });
 
     params.set("page", "1");
+    
+    if (params.toString() === searchParams.toString()) return;
+
     setSearchParams(params);
   }, [filters, searchParams, setSearchParams]);
 

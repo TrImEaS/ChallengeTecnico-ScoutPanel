@@ -8,7 +8,15 @@ import PerformanceCard from "./components/PerformanceCard";
 import StatisticsCard from "./components/StatisticsCard";
 import CareerCard from "./components/CareerCard";
 
-export default function PlayerStatsLayout({ data }: { data: Player }) {
+export default function PlayerStatsLayout({ data }: { data: Player | null }) {
+  if (!data) {
+    return (
+      <div className="w-full py-20 flex flex-col items-center justify-center text-center bg-zinc-900/30 rounded-2xl border border-dashed border-zinc-800/80">
+        <h2 className="text-xl font-bold text-zinc-300">Player not found</h2>
+        <p className="text-zinc-500 mt-2 text-sm">We couldn't retrieve the stats for this player. They might have been removed or the ID is invalid.</p>
+      </div>
+    );
+  }
   const { 
     team = {} as Team, 
     stats = [], 

@@ -1,5 +1,6 @@
 import { Search, SlidersHorizontal } from "lucide-react";
 import { useState } from "react";
+import { formatAgeInput } from "../utils/ageUtils";
 
 interface SearchFiltersProps {
   filters: {
@@ -18,8 +19,12 @@ export function SearchFilters({ filters, updateFilter, handleSearch, positions }
   const [showAdvanced, setShowAdvanced] = useState(false);
   const onKeyDown = (e: React.KeyboardEvent) => e.key === "Enter" && handleSearch();
 
-  // Clase para filtros avanzados: ocultos en mobile (salvo toggle) y visibles en desktop
   const advancedClass = showAdvanced ? "flex" : "hidden lg:flex";
+
+  const handleAgeChange = (key: "minAge" | "maxAge", val: string) => {
+    const formatted = formatAgeInput(val);
+    if (formatted !== null) updateFilter(key, formatted);
+  };
 
   return (
     <div className="flex flex-col gap-4 mb-6">
@@ -71,21 +76,21 @@ export function SearchFilters({ filters, updateFilter, handleSearch, positions }
               label="Min Age" 
               type="number" 
               value={filters.minAge} 
-              onChangeValue={val => updateFilter("minAge", val)} 
+              onChangeValue={(val) => handleAgeChange("minAge", val)}
               onKeyDown={onKeyDown} 
               className="w-full md:w-20" 
-              min="15"
-              max="50"
+              min={15}
+              max={60}
             />
             <FilterInput 
               label="Max Age" 
               type="number" 
               value={filters.maxAge} 
-              onChangeValue={val => updateFilter("maxAge", val)} 
+              onChangeValue={(val) => handleAgeChange("maxAge", val)}
               onKeyDown={onKeyDown} 
               className="w-full md:w-20" 
-              min="15"
-              max="50"
+              min={15}
+              max={60}
             />
           </div>
         </div>
@@ -124,9 +129,9 @@ function FilterInput({ label, onChangeValue, className, containerClassName, ...p
     <div className={`flex flex-col gap-1 ${containerClassName ?? ''}`}>
       <span className="text-xs text-zinc-400">{label}</span>
       <input 
-        {...props}
         onChange={(e) => onChangeValue(e.target.value)}
         className={`bg-zinc-900/50 border border-zinc-800 rounded-lg px-3 py-2 text-sm outline-none h-[38px] focus:border-primary/50 transition-all ${className ?? ''}`}
+        {...props}
       />
     </div>
   );

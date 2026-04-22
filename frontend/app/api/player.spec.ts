@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { getPlayerById, getPlayersToCompare } from './player';
 
-// Mock global de fetch
 global.fetch = vi.fn();
 
 describe('Player API Service', () => {
