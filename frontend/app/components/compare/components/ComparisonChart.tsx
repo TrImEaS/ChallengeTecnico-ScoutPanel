@@ -31,11 +31,14 @@ export function ComparisonChart({ players }: { players: (Player | null)[] }) {
   });
 
   return (
-    <div className="w-full h-[350px] sm:h-[600px]">
+    <div className="w-full h-[280px] md:h-[600px]">
       <ResponsiveContainer width="100%" height="100%">
-        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+        <RadarChart cx="50%" cy="50%" outerRadius={typeof window !== 'undefined' && window.innerWidth < 640 ? "60%" : "80%"} data={data}>
           <PolarGrid stroke="#27272a" />
-          <PolarAngleAxis dataKey="subject" tick={{ fill: "#a1a1aa", fontSize: 13 }} />
+          <PolarAngleAxis 
+            dataKey="subject" 
+            tick={{ fill: "#a1a1aa", fontSize: typeof window !== 'undefined' && window.innerWidth < 640 ? 10 : 13 }} 
+          />
           <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
           {activePlayers.map((_, playerIndex) => (
             <Radar key={playerIndex} dataKey={`p${playerIndex}`} stroke={COMPARE_COLORS[playerIndex]} fill={COMPARE_COLORS[playerIndex]} fillOpacity={0.3} dot={{ r: 3, fill: COMPARE_COLORS[playerIndex] }} />

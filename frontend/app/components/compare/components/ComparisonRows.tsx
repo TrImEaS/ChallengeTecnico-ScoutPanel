@@ -7,12 +7,12 @@ export function ComparisonRows({ players }: { players: (Player | null)[] }) {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="grid grid-cols-12 px-4 mb-2">
-        <span className="col-span-4 max-sm:text-[10px] text-[12px] uppercase text-brand-text font-bold">Metric</span>
+      <div className="grid grid-cols-12 px-2 sm:px-4 mb-2">
+        <span className="col-span-4 text-[8px] sm:text-[12px] uppercase text-brand-text font-bold opacity-60">Metric</span>
         <div className="col-span-8 flex">
           {activePlayers.map((player, playerIndex) => (
-            <span key={playerIndex} className="flex-1 text-[10px] sm:text-xs uppercase text-brand-text/90 font-bold px-2">
-              {player.name}
+            <span key={playerIndex} className="flex-1 text-[8px] sm:text-xs uppercase text-brand-text font-bold px-1 sm:px-2">
+              <span>{player.name}</span>
             </span>
           ))}
         </div>
@@ -20,7 +20,7 @@ export function ComparisonRows({ players }: { players: (Player | null)[] }) {
 
       {ROW_METRICS.map((metric) => (
         <div key={metric.key} className="grid grid-cols-12 bg-zinc-900/30 border border-zinc-800/50 hover:bg-zinc-800/40 transition-colors py-3 px-4 max-sm:px-2 rounded-lg items-center">
-          <span className="col-span-4 text-xs font-medium text-zinc-300">{metric.label}</span>
+          <span className="col-span-4 text-[9px] sm:text-[12px] font-medium text-zinc-300">{metric.label}</span>
           <div className="col-span-8 flex">
             {activePlayers.map((player, playerIndex) => {
               const stats = getTargetSeasonStats(player, "2026", true);
@@ -32,11 +32,11 @@ export function ComparisonRows({ players }: { players: (Player | null)[] }) {
                 <div key={playerIndex} className="flex-1 flex items-center gap-2 max-sm:gap-0.5 px-2 overflow-hidden">
                   <div className="flex items-center gap-1.5 min-w-[32px]">
                     <MetricIndicator value={value} metricKey={metric.key} />
-                    <span className="text-sm max-sm:text-[10px] font-bold text-brand-text tabular-nums">
+                    <span className="text-sm max-sm:text-[9px] font-bold text-brand-text tabular-nums">
                       {value}{suffix}
                     </span>
                   </div>
-                  <span className="text-[10px] text-zinc-500 tabular-nums">({perMatch})</span>
+                  <span className="text-[9px] text-zinc-500 tabular-nums">({perMatch})</span>
                 </div>
               );
             })}
@@ -52,7 +52,7 @@ function MetricIndicator({ value, metricKey }: { value: number; metricKey: strin
     ? Math.min(value, 99) 
     : Math.min(Math.floor((value / 10) * 15), 99);
 
-  // if (displayRating >= 95) return <span className="text-xs">🔥</span>;
+  if (displayRating > 100) return <span className="text-xs">🔥</span>;
   
   const isHigh = displayRating > 70;
   const isMed = displayRating >= 41;

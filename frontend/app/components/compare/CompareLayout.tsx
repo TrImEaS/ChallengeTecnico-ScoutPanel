@@ -38,13 +38,13 @@ export default function CompareLayout({ data }: { data: CompareLayoutData }) {
 
   return (
     <div className="flex flex-col w-full min-h-[80vh] bg-brand-bg">
-      <div className="flex-1 flex flex-col border-x border-t  border-zinc-800/40 backdrop-blur-sm overflow-hidden">
+      <div className="flex-1 flex flex-col border-x border-t border-zinc-800/40 backdrop-blur-sm overflow-hidden">
         <CompareHeader players={selections} />
         <div className="flex-1 flex flex-col lg:flex-row min-h-0">
-          <div className="flex-1 p-6 lg:p-12 flex items-center justify-center">
+          <div className="flex-1 p-2 lg:p-12 flex items-center justify-center">
             <ComparisonChart players={selections} />
           </div>
-          <div className="flex-1 p-6 lg:p-12 overflow-y-auto bg-brand-bg">
+          <div className="flex-1 p-2 lg:p-12 overflow-y-auto bg-brand-bg">
             <ComparisonRows players={selections} />
           </div>
         </div>
