@@ -22,12 +22,13 @@ describe('Player API Service', () => {
     expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining('/player/1'));
   });
 
-  it('should throw an error when API fails', async () => {
+  it('should return null when API fails', async () => {
     (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue({
       ok: false,
     });
 
-    await expect(getPlayerById('999')).rejects.toThrow('Failed to load player');
+    const result = await getPlayerById('999');
+    expect(result).toBeNull();
   });
 
   it('should fetch multiple players for comparison', async () => {
