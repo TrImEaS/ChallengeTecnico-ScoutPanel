@@ -1,8 +1,7 @@
-import type { Route } from "../../../routes/+types/PlayerStats";
 import { DashboardCard } from "../../ui/dashboard-card/DashboardCard";
+import type { PlayerStats } from "~/types/index.ts";
 
-export default function StatisticsCard({ stats }: { stats: Route.ComponentProps["loaderData"]["player"] }) {
-  type PlayerStats = Route.ComponentProps["loaderData"]["player"]["stats"][number];
+export default function StatisticsCard({ stats }: { stats: PlayerStats[] }) {
   const statsData = stats.find((s: PlayerStats) => s.shotsOnTarget !== null);
 
   return (
@@ -21,7 +20,7 @@ export default function StatisticsCard({ stats }: { stats: Route.ComponentProps[
   );
 }
 
-export function CirclePlot ({ percentage, label, colorClass }: { percentage: number; label: string; colorClass: string }) {
+function CirclePlot ({ percentage, label, colorClass }: { percentage: number; label: string; colorClass: string }) {
   return (
     <div className="flex flex-col items-center justify-start gap-4 flex-1">
       <div className="relative w-16 h-16 sm:w-[70px] sm:h-[70px] flex items-center justify-center shrink-0">

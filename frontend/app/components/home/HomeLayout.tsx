@@ -7,23 +7,25 @@ export default function HomeLayout() {
     <div className="flex flex-col items-center justify-center py-10 min-h-[70vh] px-5 text-center w-full max-w-4xl mx-auto space-y-12">
       <div className="space-y-4">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-brand-text">
-          Bienvenido a <span className="text-primary">ScoutPanel</span>
+          Welcome to <span className="text-primary">ScoutPanel</span>
         </h1>
         <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-          Plataforma avanzada de scouting de talentos futbolísticos.
+          Advanced platform for scouting football talents.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
         <FeatureCard
           icon={<Search size={24} strokeWidth={1.5} />} 
-          title="Buscar Jugadores" 
-          description="Filtrado por nombre, posición, nacionalidad y rango de edad." 
+          title="Search Players" 
+          to="/search"
+          description="Filter by name, position, nationality and age range." 
         />
         <FeatureCard 
           icon={<GitCompare size={24} strokeWidth={1.5} />} 
-          title="Comparador" 
-          description="Visualizaciones con gráficas para comparar múltiples métricas." 
+          title="Compare Players" 
+          to={'/compare'}
+          description="Compare players side by side with various metrics." 
         />
       </div>
 
@@ -33,7 +35,7 @@ export default function HomeLayout() {
           target="_blank"
           className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold text-zinc-950 bg-primary rounded-full hover:bg-emerald-400 hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(0,224,148,0.2)]"
         >
-          Leer documentación
+          Read documentation
           <ArrowRight size={18} strokeWidth={2.5} />
         </Link>
       </div>

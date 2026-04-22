@@ -1,7 +1,12 @@
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import SidebarItem from "./SidebarItem";
 import { NAV_ITEMS } from "./navItems";
-import type { SidebarProps } from "./types";
+
+interface SidebarProps {
+  isOpen: boolean;
+  toggle: () => void;
+}
+
 
 export default function Sidebar({ isOpen, toggle }: SidebarProps) {
   return (
@@ -44,7 +49,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
         {/* Nav items */}
         <nav className="flex flex-col gap-1 flex-1 overflow-y-auto overflow-x-hidden scrollbar-hide">
           {NAV_ITEMS.map((item) => (
-            <SidebarItem key={item.to} {...item} isExpanded={isOpen} />
+            <SidebarItem key={item.to} {...item} isExpanded={isOpen} toggleSidebar={toggle} />
           ))}
         </nav>
 

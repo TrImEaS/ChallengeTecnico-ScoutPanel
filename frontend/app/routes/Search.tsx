@@ -1,4 +1,5 @@
 import SearchLayout from "~/components/search/SearchLayout";
+import { getPlayers } from "~/api/player";
 import type { Route } from "./+types/Search";
 
 export function meta({}: Route.MetaArgs) {
@@ -8,17 +9,21 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function clientLoader({ }: Route.ClientLoaderArgs) {
-  const response = await fetch(`http://localhost:3000/player`);
+export async function clientLoader({ request }: Route.ClientLoaderArgs) {
+  const url = new URL(request.url);
+  const params = ["page", "name", "position", "nationality", "minAge", "maxAge"];
   
-  if (!response.ok) throw new Error("Error fetching players");
-  
-  const players = await response.json();
-  return players;
+  const query = new URLSearchParams();
+  params.forEach(param => {
+    const value = url.searchParams.get(param);
+    if (value) query.set(param, value);
+  });
+  query.set("includeTeam", "true");
+  query.set("includeStats", "true");
+
+  return await getPlayers(query);
 }
 
 export default function Search({ loaderData }: Route.ComponentProps) {
-  return (
-    <SearchLayout data={loaderData} />
-  )
+  return <SearchLayout loaderData={loaderData} />;
 }

@@ -1,9 +1,7 @@
-import type { Route } from "../../../routes/+types/PlayerStats";
 import { DashboardCard } from "../../ui/dashboard-card/DashboardCard";
+import type { PlayerStats } from "~/types/index.ts";
 
-export default function PerformanceCard({ stats }: { stats: Route.ComponentProps["loaderData"]["player"] }) {
-  type PlayerStats = Route.ComponentProps["loaderData"]["player"]["stats"][number];
-
+export default function PerformanceCard({ stats }: { stats: PlayerStats[] }) {
   const seasonStats = stats.filter((s: PlayerStats) => !s.competition?.includes('Total Career'));
   const totalStats = {
     matchesPlayed: seasonStats.reduce((acc: number, stat: PlayerStats) => acc + stat.matchesPlayed, 0),

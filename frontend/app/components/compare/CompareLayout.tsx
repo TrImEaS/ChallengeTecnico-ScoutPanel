@@ -1,109 +1,66 @@
-import { useState } from "react";
-import { DashboardCard } from "../ui/dashboard-card/DashboardCard";
+import { Link } from "react-router";
+import type { Player } from "~/types/index.ts";
+import { CompareHeader } from "./components/CompareHeader";
+import { ComparisonChart } from "./components/ComparisonChart";
+import { ComparisonRows } from "./components/ComparisonRows";
+import { useCompareStore } from "../../store/useCompareStore";
+import { useSyncCompareUrl } from "./hooks/useSyncCompareUrl";
+import { MAX_COMPARE_PLAYERS } from "./constants";
 
-type Player = any;
+interface CompareLayoutData {
+  preSelectedPlayers: Player[];
+  isEmpty: boolean;
+}
 
-export default function CompareLayout({ data }: { data: Player[] }) {
-  const [playerA, setPlayerA] = useState<Player | null>(null);
-  const [playerB, setPlayerB] = useState<Player | null>(null);
+export default function CompareLayout({ data }: { data: CompareLayoutData }) {
+  const { selectedPlayers } = useCompareStore();
+  useSyncCompareUrl(selectedPlayers, data.isEmpty);
 
-  const getAge = (birthDate: string) => {
-    return new Date().getFullYear() - new Date(birthDate).getFullYear();
+  const selections = Array.from({ length: MAX_COMPARE_PLAYERS }, (_, i) => 
+    data.preSelectedPlayers?.[i] ?? null
+  );
+
+  const activeCount = selections.filter(Boolean).length;
+
+  if (activeCount === 0) {
+    return (
+      <EmptyState 
+        title="No players found" 
+        subtitle="You can compare up to 3 players at a time. Use the search to find players and add them to the comparison." 
+        actionText="Go to Search" 
+      />
+    );
+  }
+
+  if (activeCount === 1) {
+    return <EmptyState title="One more needed!" subtitle={`You have selected ${selections[0]?.name}. Please select at least one more.`} actionText="Find another player" />;
   }
 
   return (
-    <div className="flex flex-col gap-6 max-w-[1400px] w-full pb-8">
-      <h1 className="text-2xl font-bold text-brand-text mt-2 mb-2">Compare Players</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        {/* Player A Selection */}
-        <div className="flex flex-col gap-4">
-          <select 
-            className="w-full bg-zinc-900 border border-zinc-800 text-brand-text p-3 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
-            onChange={(e) => setPlayerA(data.find(player => player.id === Number(e.target.value)))}
-            defaultValue=""
-          >
-            <option value="" disabled>Select Player A...</option>
-            {data.map(player => (
-              <option key={player.id} value={player.id}>{player.name}</option>
-            ))}
-          </select>
-
-          {playerA ? (
-            <DashboardCard title="" className="p-6 flex flex-col items-center justify-center min-h-[350px]">
-               <div className="w-28 h-28 rounded-full overflow-hidden bg-brand-bg mb-4 ring-2 ring-primary">
-                 <img src={playerA.photoUrl} alt="" className="w-full h-full object-cover" />
-               </div>
-               <h2 className="text-xl font-bold text-brand-text text-center">{playerA.name}</h2>
-               <span className="text-zinc-500 font-medium mt-1">{playerA.position}</span>
-               
-               <div className="w-full mt-10 flex flex-col gap-4 px-2">
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Market Value</span>
-                     <span className="text-brand-text font-bold">€ {playerA.marketValue}M</span>
-                  </div>
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Height</span>
-                     <span className="text-brand-text font-bold">{playerA.height}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Age</span>
-                     <span className="text-brand-text font-bold">{getAge(playerA.birthDate)}</span>
-                  </div>
-               </div>
-            </DashboardCard>
-          ) : (
-             <DashboardCard title="" className="p-6 flex flex-col items-center justify-center min-h-[350px] border border-dashed border-zinc-700/60 bg-transparent">
-                <span className="text-zinc-600 font-medium">Select a player to compare</span>
-             </DashboardCard>
-          )}
+    <div className="flex flex-col w-full min-h-[80vh] bg-brand-bg">
+      <div className="flex-1 flex flex-col border-x border-t  border-zinc-800/40 backdrop-blur-sm overflow-hidden">
+        <CompareHeader players={selections} />
+        <div className="flex-1 flex flex-col lg:flex-row min-h-0">
+          <div className="flex-1 p-6 lg:p-12 flex items-center justify-center">
+            <ComparisonChart players={selections} />
+          </div>
+          <div className="flex-1 p-6 lg:p-12 overflow-y-auto bg-brand-bg">
+            <ComparisonRows players={selections} />
+          </div>
         </div>
-
-        {/* Player B Selection */}
-        <div className="flex flex-col gap-4">
-          <select 
-            className="w-full bg-zinc-900 border border-zinc-800 text-brand-text p-3 rounded-xl outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
-            onChange={(e) => setPlayerB(data.find(player => player.id === Number(e.target.value)))}
-            defaultValue=""
-          >
-            <option value="" disabled>Select Player B...</option>
-            {data.map(player => (
-              <option key={player.id} value={player.id}>{player.name}</option>
-            ))}
-          </select>
-
-          {playerB ? (
-            <DashboardCard title="" className="p-6 flex flex-col items-center justify-center min-h-[350px]">
-               <div className="w-28 h-28 rounded-full overflow-hidden bg-brand-bg mb-4 ring-2 ring-primary">
-                 <img src={playerB.photoUrl} alt="" className="w-full h-full object-cover" />
-               </div>
-               <h2 className="text-xl font-bold text-brand-text text-center">{playerB.name}</h2>
-               <span className="text-zinc-500 font-medium mt-1">{playerB.position}</span>
-               
-               <div className="w-full mt-10 flex flex-col gap-4 px-2">
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Market Value</span>
-                     <span className="text-brand-text font-bold">€ {playerB.marketValue}M</span>
-                  </div>
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Height</span>
-                     <span className="text-brand-text font-bold">{playerB.height}</span>
-                  </div>
-                  <div className="flex justify-between border-b border-zinc-800/50 pb-2">
-                     <span className="text-zinc-500 text-sm">Age</span>
-                     <span className="text-brand-text font-bold">{getAge(playerB.birthDate)}</span>
-                  </div>
-               </div>
-            </DashboardCard>
-          ) : (
-             <DashboardCard title="" className="p-6 flex flex-col items-center justify-center min-h-[350px] border border-dashed border-zinc-700/60 bg-transparent">
-                <span className="text-zinc-600 font-medium">Select a player to compare</span>
-             </DashboardCard>
-          )}
-        </div>
-
       </div>
+    </div>
+  );
+}
+
+function EmptyState({ title, subtitle, actionText }: { title: string; subtitle: string; actionText: string }) {
+  return (
+    <div className="flex flex-col items-center justify-center h-[80vh] gap-4 w-full">
+      <h2 className="text-3xl font-bold text-brand-text">{title}</h2>
+      <p className="text-zinc-400 max-w-md text-center">{subtitle}</p>
+      <Link to="/search" className="bg-primary hover:bg-primary/90 text-zinc-900 font-bold px-6 py-3 rounded-lg shadow-lg hover:scale-105 transition-all mt-4">
+        {actionText}
+      </Link>
     </div>
   );
 }

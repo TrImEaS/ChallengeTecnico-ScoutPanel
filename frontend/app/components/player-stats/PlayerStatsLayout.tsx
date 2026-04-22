@@ -1,4 +1,4 @@
-import type { Route } from "../../routes/+types/PlayerStats";
+import type { Player, Team } from "~/types/index.ts";
 import HeaderCard from "./components/HeaderCard";
 import CurrentTeamCard from "./components/CurrentTeamCard";
 import PhysicalStatsCard from "./components/PhysicalStatsCard";
@@ -7,9 +7,15 @@ import PlayerInfoCard from "./components/PlayerInfoCard";
 import PerformanceCard from "./components/PerformanceCard";
 import StatisticsCard from "./components/StatisticsCard";
 import CareerCard from "./components/CareerCard";
-// import PositionsCard from "./components/PositionsCard";
 
-export default function PlayerStatsLayout({ data }: { data: Route.ComponentProps["loaderData"]['player'] }) {
+export default function PlayerStatsLayout({ data }: { data: Player }) {
+  const { 
+    team = {} as Team, 
+    stats = [], 
+    career = [],
+    contractFrom,
+    contractTo 
+  } = data;
 
   return (
     <div className="flex flex-col gap-4 justify-center w-full pb-8">
@@ -19,7 +25,12 @@ export default function PlayerStatsLayout({ data }: { data: Route.ComponentProps
           <HeaderCard player={data}/>
         </div>
         <div className="xl:col-span-4">
-          <CurrentTeamCard player={data} />
+          <CurrentTeamCard 
+            team={team} 
+            contractFrom={contractFrom} 
+            contractTo={contractTo} 
+            leagueName="Liga Profesional de Fútbol"
+          />
         </div>
       </section>
 
@@ -28,20 +39,24 @@ export default function PlayerStatsLayout({ data }: { data: Route.ComponentProps
         
         {/* Left Column */}
         <div className="lg:col-span-4 xl:col-span-3 flex flex-col gap-4">
-          <PhysicalStatsCard player={data} />
-          <MarketValueCard player={data} />
+          <PhysicalStatsCard 
+            position={data.position} 
+            height={data.height} 
+            skillfulFoot={data?.skillfulFoot} 
+          />
+          <MarketValueCard value={data.marketValue} />
           <PlayerInfoCard player={data} />
         </div>
 
         {/* Center Column */}
         <div className="lg:col-span-8 xl:col-span-5 flex flex-col gap-4">
-          <PerformanceCard stats={data.stats} />
-          <StatisticsCard stats={data.stats} /> 
+          <PerformanceCard stats={stats} />
+          <StatisticsCard stats={stats} /> 
         </div>
 
         {/* Right Column */}
         <div className="lg:col-span-12 xl:col-span-4 flex flex-col gap-4 md:flex-row xl:flex-col">
-          <CareerCard player={data} />
+          <CareerCard careers={career} />
         </div>
       </section>
     </div>

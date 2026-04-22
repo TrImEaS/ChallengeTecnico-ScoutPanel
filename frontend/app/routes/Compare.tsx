@@ -1,5 +1,12 @@
 import CompareLayout from "~/components/compare/CompareLayout";
+import { getPlayersToCompare } from "~/api/player";
 import type { Route } from "./+types/Compare";
+import type { Player } from "~/types";
+
+export interface CompareLoaderData {
+  preSelectedPlayers: Player[];
+  isEmpty: boolean;
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,17 +15,19 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function clientLoader({ request }: Route.ClientLoaderArgs) {
-  const response = await fetch(`http://localhost:3000/player`);
+export async function clientLoader({ request }: Route.ClientLoaderArgs): Promise<CompareLoaderData> {
+  const url = new URL(request.url);
+  const playerNames = url.searchParams.getAll("player");
   
-  if (!response.ok) throw new Error("Error fetching players");
-  
-  const players = await response.json();
-  return players;
+  if (playerNames.length === 0) {
+    return { preSelectedPlayers: [], isEmpty: true };
+  }
+
+  const preSelectedPlayers = await getPlayersToCompare(playerNames);
+
+  return { preSelectedPlayers, isEmpty: false };
 }
 
 export default function Compare({ loaderData }: Route.ComponentProps) {
-  return (
-    <CompareLayout data={loaderData} />
-  )
+  return <CompareLayout data={loaderData} />;
 }

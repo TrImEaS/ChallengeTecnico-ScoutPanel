@@ -1,13 +1,8 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
-
+import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { LoadingOverlay } from "./components/ui/LoadingOverlay";
+import { FloatingCompareBar } from "./components/compare/FloatingCompareBar";
 import type { Route } from "./+types/root";
+import DashboardLayout from "./components/layout/DashboardLayout";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
@@ -42,7 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <FloatingCompareBar />
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -71,5 +71,15 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
         </pre>
       )}
     </main>
+  );
+}
+
+export function HydrateFallback() {
+  return (
+    <div className="h-screen w-full bg-brand-bg relative">
+      <DashboardLayout>
+        <LoadingOverlay />
+      </DashboardLayout>
+    </div>
   );
 }

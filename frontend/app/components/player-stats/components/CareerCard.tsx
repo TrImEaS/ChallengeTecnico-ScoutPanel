@@ -1,17 +1,19 @@
-import type { Route } from "../../../routes/+types/PlayerStats";
+import { useMemo } from "react";
 import { DashboardCard } from "../../ui/dashboard-card/DashboardCard";
+import type { PlayerCareer } from "~/types/index.ts";
 
-export default function CareerCard({ player }: { player: Route.ComponentProps["loaderData"]["player"] }) {
-  const careers = [...(player.career || [])]
-    .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
-
-  const displayCareers = careers.slice(-6);
+export default function CareerCard({ careers }: { careers?: PlayerCareer[] | null }) {
+  const displayCareers = useMemo(() => {
+    return [...(careers || [])]
+      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())
+      .slice(-6);
+  }, [careers]);
 
   return (
     <DashboardCard title="Career" rightAction="See more" className="px-5 py-4 h-fit flex-col"> 
        <div className="flex flex-col mt-2">
          <div className="relative flex items-center justify-between w-full mt-4 bg-transparent pb-4 flex-1">
-            {/* line for connecting the dots */}
+            {/* Line for connecting the dots */}
             <div className="absolute left-[5%] right-[5%] max-sm:left-[10%] max-sm:right-[10%] h-[2px] bg-zinc-800 top-[50%] z-0"></div>
 
             {displayCareers.map((carrer, i) => {

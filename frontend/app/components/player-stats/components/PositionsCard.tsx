@@ -1,7 +1,7 @@
-import type { Route } from "../../../routes/+types/PlayerStats";
 import { DashboardCard } from "../../ui/dashboard-card/DashboardCard";
+import type { Player } from '~/types/index.ts';
 
-export default function PositionsCard({ player }: { player: Route.ComponentProps["loaderData"]["player"] }) {
+export default function PositionsCard({ player }: { player: Player }) {
   return (
     <DashboardCard title="Positions" rightAction="See more" className="px-5 py-4 pb-0 h-full flex-col">
       <div className="mt-2 mb-4">

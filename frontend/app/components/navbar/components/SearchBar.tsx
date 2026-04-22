@@ -1,7 +1,7 @@
 import { Search, ChevronDown, X } from "lucide-react";
 import { useState } from "react";
 
-const FILTER_OPTIONS = ["Todo", "Jugadores", "Agentes", "Clubes"];
+const FILTER_OPTIONS = ["All", "Players", "Agents", "Clubs"];
 
 export default function SearchBar() {
   const [filter, setFilter] = useState(FILTER_OPTIONS[0]);
@@ -40,10 +40,6 @@ export default function SearchBar() {
                   key={option}
                   onClick={() => handleFilterClick(option)}
                   className={`w-full px-3 py-2 text-sm text-left transition-colors 
-                    ${(option === 'Agentes' || option === 'Clubes') 
-                      ? 'text-white/20 cursor-not-allowed'
-                      : "text-zinc-300 hover:bg-zinc-700/60 cursor-pointer"
-                    }
                     ${filter === option && "bg-emerald-500/15 text-emerald-400"}
                   `}
                 >
@@ -56,7 +52,7 @@ export default function SearchBar() {
           <input
             type="text"
             autoFocus={isMobileSearchOpen}
-            placeholder="Buscar..."
+            placeholder="Search player, agent or club."
             className="flex-1 min-w-0 bg-transparent px-3 h-full text-sm text-zinc-200 placeholder-zinc-500 outline-none"
           />
 

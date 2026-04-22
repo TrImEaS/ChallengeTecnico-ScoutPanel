@@ -1,9 +1,14 @@
-import type { Route } from "../../../routes/+types/PlayerStats";
 import { DashboardCard } from "../../ui/dashboard-card/DashboardCard";
 
-export default function PhysicalStatsCard({ player }: { player: Route.ComponentProps["loaderData"]['player'] }) {
-  const isRight = player.skillfulFoot?.toLowerCase() === "right" || player.skillfulFoot?.toLowerCase() === "both";
-  const isLeft = player.skillfulFoot?.toLowerCase() === "left" || player.skillfulFoot?.toLowerCase() === "both";
+interface PhysicalStatsProps {
+  position: string;
+  skillfulFoot?: string | null;
+  height?: number | null;
+}
+
+export default function PhysicalStatsCard({ position, skillfulFoot, height }: PhysicalStatsProps) {
+  const isRight = skillfulFoot?.toLowerCase() === "right" || skillfulFoot?.toLowerCase() === "both";
+  const isLeft = skillfulFoot?.toLowerCase() === "left" || skillfulFoot?.toLowerCase() === "both";
 
   return (
     <DashboardCard title="" className="items-center justify-between py-6">
@@ -18,7 +23,7 @@ export default function PhysicalStatsCard({ player }: { player: Route.ComponentP
               </div>
             </div>
           </div>
-          <span className="text-brand-text text-xs sm:text-sm font-semibold text-center leading-tight min-h-[36px] flex items-center">{player.position}</span>
+          <span className="text-brand-text text-xs sm:text-sm font-semibold text-center leading-tight min-h-[36px] flex items-center">{position}</span>
           <span className="text-zinc-500 text-[10px] uppercase tracking-wider relative -top-1">Position</span>
         </div>
 
@@ -28,14 +33,14 @@ export default function PhysicalStatsCard({ player }: { player: Route.ComponentP
             <Foot active={isLeft} isRightFoot={false} />
             <Foot active={isRight} isRightFoot={true} />
           </div>
-          <span className="text-brand-text text-xs sm:text-sm font-semibold mt-1 h-[36px] flex items-center">{player.skillfulFoot}</span>
+          <span className="text-brand-text text-xs sm:text-sm font-semibold mt-1 h-[36px] flex items-center">{skillfulFoot || "-"}</span>
           <span className="text-zinc-500 text-[10px] uppercase tracking-wider relative -top-1">Skillful foot</span>
         </div>
 
         {/* Height */}
         <div className="flex flex-col items-center justify-center gap-1 flex-1 px-2">
           <div className="h-10 flex items-center justify-center">
-            <span className="text-xl sm:text-2xl font-bold text-brand-text leading-none tracking-tight">{player.height?.toFixed(2)}</span>
+            <span className="text-xl sm:text-2xl font-bold text-brand-text leading-none tracking-tight">{height?.toFixed(2) || "-"}</span>
           </div>
           <span className="text-brand-text text-xs sm:text-sm font-semibold h-[36px] flex items-center">mts</span>
           <span className="text-zinc-500 text-[10px] uppercase tracking-wider relative -top-1">Height</span>
@@ -45,7 +50,7 @@ export default function PhysicalStatsCard({ player }: { player: Route.ComponentP
   );
 } 
 
-export function Foot({ active, isRightFoot }: { active: boolean; isRightFoot?: boolean }) {
+function Foot({ active, isRightFoot }: { active: boolean; isRightFoot?: boolean }) {
   return (
     <svg
       viewBox="0 0 40 100"

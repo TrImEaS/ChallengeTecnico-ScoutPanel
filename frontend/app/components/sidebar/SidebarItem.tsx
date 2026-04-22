@@ -1,11 +1,17 @@
 import { NavLink } from "react-router";
-import type { SidebarItemProps } from "./types";
+import type { NavItem } from "~/types/index.ts";
 
-export default function SidebarItem({ icon: Icon, to, label, isExpanded }: SidebarItemProps) {
+export interface SidebarItemProps extends NavItem {
+  isExpanded?: boolean;
+  toggleSidebar?: () => void;
+}
+
+export default function SidebarItem({ icon: Icon, to, label, isExpanded, toggleSidebar }: SidebarItemProps) {
   return (
     <NavLink
       to={to}
       title={isExpanded ? undefined : label}
+      onClick={()=> {toggleSidebar && isExpanded && toggleSidebar() }}
       className={({ isActive }) =>
         `flex items-center ${isExpanded ? "justify-start px-3 w-full" : "justify-center w-10"} shrink-0 h-10 rounded-xl transition-all duration-200 ${
           isActive

@@ -1,4 +1,11 @@
-import type { NavActionProps } from "../types";
+import type { LucideIcon } from "lucide-react";
+
+interface NavActionProps {
+  icon: LucideIcon;
+  label: string;
+  badge?: boolean;
+  className?: string;
+}
 
 export default function NavAction({ 
   icon: Icon, 

@@ -1,4 +1,9 @@
-import type DashboardCardProps from "./types";
+interface DashboardCardProps {
+  title: string;
+  children: React.ReactNode;
+  rightAction?: React.ReactNode;
+  className?: string;
+}
 
 export function DashboardCard({ title, children, rightAction, className = "" }: DashboardCardProps) {
   return (
