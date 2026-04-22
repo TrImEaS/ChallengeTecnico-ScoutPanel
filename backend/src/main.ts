@@ -3,10 +3,11 @@ import { AppModule } from './app.module'
 
 async function bootstrap () {
   const app = await NestFactory.create(AppModule)
+  const origins = ['http://localhost:5173', 'https://trimeas.duckdns.org']
 
   app.enableCors({
-    origin: 'http://localhost:5173',
-    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    origin: origins,
+    methods: 'GET',
     credentials: true
   })
 

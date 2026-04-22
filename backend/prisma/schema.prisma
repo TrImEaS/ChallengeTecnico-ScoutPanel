@@ -25,11 +25,11 @@ model Player {
   residence         String?
   communityPassport Boolean       @default(false)
   position          String
-  positionShort     String?       // "SS", "CB"
-  skillfulFoot      String?       // "Right", "Left", "Both"
-  height            Float?        // in mts
-  weight            Int?          // in kg
-  marketValue       Float?        // in millions
+  positionShort     String?       
+  skillfulFoot      String?       
+  height            Float?        
+  weight            Int?          
+  marketValue       Float?       
   intermediary      String?
   contractFrom      DateTime?
   contractTo        DateTime?
@@ -38,6 +38,8 @@ model Player {
   team              Team          @relation(fields: [teamId], references: [id])
   stats             PlayerStats[]
   career            PlayerCareer[]
+
+  @@index([teamId])
 }
 
 model PlayerCareer {
@@ -48,6 +50,10 @@ model PlayerCareer {
   team      Team      @relation(fields: [teamId], references: [id])
   startDate DateTime
   endDate   DateTime?
+
+  @@index([playerId])
+  @@index([teamId])
+  @@map("Player_Career")
 }
 
 model Season {
@@ -62,7 +68,7 @@ model PlayerStats {
   player              Player  @relation(fields: [playerId], references: [id])
   seasonId            Int
   season              Season  @relation(fields: [seasonId], references: [id])
-  competition         String? // e.g., "Liga Profesional de Fútbol"
+  competition         String? 
   matchesPlayed       Int
   goals               Int
   assists             Int
@@ -74,5 +80,7 @@ model PlayerStats {
   offensiveDuelsWon   Int?
   aerialDuelsWon      Int?
 
+  @@index([playerId])
+  @@index([seasonId])
   @@map("Player_Stats")
 }
