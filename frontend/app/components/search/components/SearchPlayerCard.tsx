@@ -66,7 +66,7 @@ export function SearchPlayerCard({ player }: { player: Player}) {
           <div className="flex flex-col justify-between items-end gap-3 sm:w-auto">
             <div className="flex sm:hidden w-full items-center gap-3 text-[10px] font-medium text-zinc-400 border-t border-zinc-800/50 pt-3">
               <span className="bg-zinc-800/50 px-2 py-0.5 rounded text-primary">{player.positionShort}</span>
-              <span>{getAge(player.birthDate)}Y</span>
+              <span>{getAge(player.birthDate)}</span>
               {player.team && (
                 <div className="flex items-center gap-1.5 ml-auto bg-zinc-900/50 px-2 py-0.5 rounded border border-zinc-800/30">
                    {player.team.logoUrl && <img src={player.team.logoUrl} className="w-3 h-3 object-contain" alt="" />}
