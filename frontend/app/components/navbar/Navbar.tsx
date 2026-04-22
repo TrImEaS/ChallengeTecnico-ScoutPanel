@@ -25,15 +25,15 @@ export default function Navbar({ toggleSidebar, isSidebarOpen }: NavbarProps) {
         </span>
       </div>
 
-      <div className="flex-1 flex justify-end md:justify-center px-1">
+      <div className="flex-1 flex justify-end md:justify-center px-1 max-sm:px-px">
         <SearchBar />
       </div>
 
-      <div className="flex items-center justify-end gap-1 w-1/4">
+      <div className="flex items-center justify-end gap-1 max-sm:gap-px">
         <button className="relative flex items-center justify-center sm:justify-start w-10 sm:w-auto h-10 sm:gap-1.5 rounded-xl px-0 sm:px-3 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/60 transition-all duration-200">
           <Globe size={20} strokeWidth={1.8} className="sm:hidden shrink-0" />
           <Globe size={18} strokeWidth={1.8} className="hidden sm:block shrink-0" />
-          <span className="absolute top-1 right-1 text-[10px] font-bold sm:static sm:text-sm">EN</span>
+          <span className="absolute -top-px right-0 text-[10px] font-bold sm:static sm:text-sm">EN</span>
         </button>
         <NavAction icon={MessageSquare} label="Mensajes" />
         <NavAction icon={Bell} label="Notificaciones" badge />

@@ -117,6 +117,8 @@ Al priorizar un MVP funcional en un tiempo límite, ciertas optimizaciones arqui
 - **Atomicidad en Frontend:** Desestructurar componentes complejos (como los dashboards de estadísticas o el control de contexto en `player-stats`) en subcomponentes más pequeños para maximizar la reutilización y facilitar el testing aislado.
 - **UX / UI Loaders:** Reemplazar el `LoadingOverlay` global actual por un sistema de _Skeleton Screens_ dedicado por componente, mejorando la percepción de carga y evitando reflows en la UI.
 - **Autenticación Moderna:** Implementar un sistema de sesión con JWT e integración de Google OAuth para facilitar el acceso de los usuarios.
+- **Diversidad de Visualizaciones:** Integrar opciones adicionales al radar chart actual, como gráficos de barras y tablas comparativas, ofreciendo a los usuarios múltiples perspectivas para el análisis de datos.
+- **Filtro por Temporadas (Seasons):** Añadir la capacidad de seleccionar y comparar estadísticas basadas en temporadas específicas e individuales para cada jugador seleccionado.
 - **Testing E2E:** Sumar suites de pruebas de integración y End-to-End para automatizar el testeo de los flujos críticos de la aplicación.
 - **Optimización de Renderizado:** Implementar estratégicamente `useMemo` y `useCallback` en los componentes con gráficos pesados para evitar re-renders innecesarios durante el filtrado dinámico.
 - **CI/CD Pipeline:** Integrar GitHub Actions para que el testing, build y despliegue en el VPS se ejecuten automáticamente con cada push a la rama principal.
